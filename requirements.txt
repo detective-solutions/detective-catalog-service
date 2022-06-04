@@ -1,0 +1,6 @@
+protobuf==3.20.*
+pydgraph==21.3.2
+kafka-python==2.0.2
+python-dotenv==0.20.0
+pydantic==1.9.1
+pandas==1.4.2
