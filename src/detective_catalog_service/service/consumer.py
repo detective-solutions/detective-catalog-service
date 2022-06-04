@@ -24,3 +24,12 @@ consumer = KafkaConsumer(
 initialize_listeners()
 for message in consumer:
     message = message.value
+
+    payload = {
+        "connector.name": "postgresql",
+        "connection-url": "jdbc:postgresql://dumbo.db.elephantsql.com:5432/fkutbowf",
+        "connection-user": "fkutbowf",
+        "connection-password": "6f8QOboUReqfLJ17mukRAyWBEME6xolU"
+    }
+    # print(register_catalog(name="elephant", properties=payload))
+    # print(list_catalogs())

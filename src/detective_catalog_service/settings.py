@@ -19,6 +19,10 @@ KAFKA_HOST = os.getenv("KAFKA_SERVICE_NAME")
 KAFKA_PORT = os.getenv("KAFKA_PORT")
 KAFKA_SERVER = f"{KAFKA_HOST}:{KAFKA_PORT}"
 
+# set trino host
+TRINO_HOST = os.getenv("TRINO_SERVICE_NAME")
+TRINO_PORT = os.getenv("TRINO_PORT")
+TRINO_SERVER = f"{TRINO_HOST}:{TRINO_PORT}"
 
 # set dgraph connection
 dgraph_client_stub = pydgraph.DgraphClientStub(DGRAPH_SERVER)
