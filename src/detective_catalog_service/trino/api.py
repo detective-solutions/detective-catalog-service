@@ -8,28 +8,28 @@ from detective_catalog_service.settings import TRINO_SERVER
 from detective_catalog_service.service.event import post_event, subscribe
 
 
-class CatalogOperation:
+class TrinoOperation:
 
     ENDPOINT = "v1/catalog"
     HEADER = {"Content-Type": "application/json"}
 
     @classmethod
-    def register_catalog(cls, name, properties) -> None:
+    def register_catalog(cls, name: str, properties: dict) -> bool:
         uri = os.path.join(TRINO_SERVER, cls.ENDPOINT, f"register?name={name}")
         r = requests.post(uri, headers=cls.HEADER, data=json.dumps(properties))
         if r.status_code == 204:
-            post_event("register_success", {"status": r.status_code, "body": "success"})
+            return True
         else:
-            post_event("register_error", {"status": r.status_code, "body": "fail"})
+            return False
 
     @classmethod
-    def list_catalog(cls):
+    def list_catalog(cls) -> dict:
         uri = os.path.join(TRINO_SERVER, cls.ENDPOINT, "catalogs")
         r = requests.get(uri, headers=cls.HEADER)
         if r.status_code == 200:
-            post_event("list_success", {"status": r.status_code, "body": json.loads(r.text)})
+            return {"status": r.status_code, "body": json.loads(r.text)}
         else:
-            post_event("list_error", {"status": r.status_code, "body": [r.text]})
+            return {"status": r.status_code, "body": [r.text]}
 
     @classmethod
     def update_catalog(cls):
