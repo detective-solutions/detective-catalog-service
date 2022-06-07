@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install -e .
 RUN rm requirements.txt
 
-CMD python ./src/detective_catalog_service/service/consumer.py
+CMD ["uvicorn", "detective_catalog_service.service.server:app", "--host", "0.0.0.0", "--port", "3003"]

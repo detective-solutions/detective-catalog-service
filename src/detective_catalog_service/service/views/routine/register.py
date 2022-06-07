@@ -1,9 +1,6 @@
-# import standard modules
-import time
-
 # import project related modules
 from detective_catalog_service.trino.api import TrinoOperation
-from detective_catalog_service.service.models.main import PropertyModel
+from detective_catalog_service.service.models.connector.main import PropertyModel
 from detective_catalog_service.database.queries import check_for_source_connection_name, get_source_connection_id_by_xid
 from detective_catalog_service.database.mutations import (
     create_new_catalog,
@@ -36,4 +33,3 @@ def register_routine(name: str, source_connection: PropertyModel) -> dict:
                     "0001: catalog could not be registered in query engine nor be deleted from db, contact support"]}
     else:
         return {"error": ["0001: catalog could not be registered in database, contact support"]}
-

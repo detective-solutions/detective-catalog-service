@@ -5,7 +5,7 @@ from typing import Optional, Literal
 from pydantic import Field
 
 # import project related module
-from detective_catalog_service.service.models.main import PropertyModel
+from detective_catalog_service.service.models.connector.main import PropertyModel
 
 
 class Cassandra(PropertyModel):

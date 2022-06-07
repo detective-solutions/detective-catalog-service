@@ -5,7 +5,7 @@ from typing import Optional
 from pydantic import Field
 
 # import project related modules
-from detective_catalog_service.service.models.main import PropertyModel
+from detective_catalog_service.service.models.connector.main import PropertyModel
 
 
 class PostgreSQL(PropertyModel):
@@ -25,10 +25,10 @@ class PostgreSQL(PropertyModel):
                                                                                                     "in the metadata "
                                                                                                     "cache")
     batchSize: Optional[int] = Field(1000, title="batch size", description="Maximum number of statements in a "
-                                                                                "batched execution. Do not change this "
-                                                                                "setting from the default. Non-default "
-                                                                                "values may negatively impact "
-                                                                                "performance.")
+                                                                           "batched execution. Do not change this"
+                                                                           " setting from the default. Non-default"
+                                                                           " values may negatively impact "
+                                                                           "performance.")
 
     # TODO: not enabled, size there is no process yet to add the configuration file automatically
     # caseInsensitiveNameMatching: Optional[bool] = Field(False, title="case insensitive name matching",

@@ -3,11 +3,12 @@ from fastapi import APIRouter
 
 # import project related modules
 from detective_catalog_service.service.models.register import register
+from detective_catalog_service.service.views.responses.codes import general
 
 router = APIRouter(
     prefix="/v1/catalog/connector",
     tags=["connector"],
-    responses={404: {"description": "Not found"}},
+    responses=general,
 )
 
 
@@ -34,5 +35,5 @@ async def get_catalog_definition(connector_type: str):
         model = register[connector_type]
         return model.schema()
     except KeyError:
-        return {f"error": f"connector with type '{connector_type}' is not available must "
-                          f"be one of {list(register.keys())}"}
+        return {"error": f"connector with type '{connector_type}' is not available must "
+                         f"be one of {list(register.keys())}"}

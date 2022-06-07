@@ -1,7 +1,7 @@
-from detective_catalog_service.service.models.accumulo import Accumulo
-from detective_catalog_service.service.models.postgresql import PostgreSQL
-from detective_catalog_service.service.models.bigquery import BigQuery
-from detective_catalog_service.service.models.cassandra import Cassandra
+from detective_catalog_service.service.models.connector.accumulo import Accumulo
+from detective_catalog_service.service.models.connector.postgresql import PostgreSQL
+from detective_catalog_service.service.models.connector.bigquery import BigQuery
+from detective_catalog_service.service.models.connector.cassandra import Cassandra
 
 register = {
     "accumulo": Accumulo,

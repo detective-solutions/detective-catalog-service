@@ -5,7 +5,6 @@ import requests
 
 # import project related modules
 from detective_catalog_service.settings import TRINO_SERVER
-from detective_catalog_service.service.event import post_event, subscribe
 
 
 class TrinoOperation:
@@ -36,10 +35,14 @@ class TrinoOperation:
         pass
 
     @classmethod
-    def delete_catalog(cls):
-        pass
+    def delete_catalog(cls, name: str):
+        uri = os.path.join(TRINO_SERVER, cls.ENDPOINT, f"remove?name={name}")
+        r = requests.post(uri, headers=cls.HEADER)
+        if r.status_code == 204:
+            return True
+        else:
+            return False
 
-
-def setup_catalog_events():
-    subscribe("register_catalog", CatalogOperation.register_catalog)
-    subscribe("list_catalog", CatalogOperation.list_catalog)
+    @classmethod
+    def check_catalog_by_name_in_trino(cls, catalog_name: str) -> bool:
+        return True

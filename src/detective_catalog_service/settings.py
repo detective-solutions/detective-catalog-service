@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Variables
+JWT_SECRET = os.getenv("SECRETKEY")
+JWT_ALGORITHM = os.getenv("ALGORITHM")
 
 # set dgraph host
 DGRAPH_HOST = os.getenv("DGRAPH_SERVICE_NAME")

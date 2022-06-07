@@ -1,0 +1,64 @@
+# import project related module
+from detective_catalog_service.settings import dgraph_client
+from detective_catalog_service.database.execution import execute_query
+
+
+def check_for_source_connection_name(source_name: str) -> bool:
+    query = '''
+        query connectionNames($source_name: string) { result(func: eq(dgraph.type, "SourceConnection"))
+        @filter(eq(SourceConnection.name, $source_name)) {
+            name: SourceConnection.name
+        }
+    }
+    '''
+    variables = {"$source_name": source_name}
+    res = execute_query(client=dgraph_client, query=query, variables=variables)
+    if type(res) == dict:
+        source_names = [x.get("name", "") for x in res.get("result", [])]
+        if source_name in source_names:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
+def get_source_connection_id_by_xid(source_connection_xid: str) -> str:
+    query = '''
+        query connectionNames($xid: string) {result(func: eq(dgraph.type, "SourceConnection"))
+        @filter(eq(SourceConnection.xid, $xid)) {
+            uid
+        }
+    }
+    '''
+    variables = {"$xid": source_connection_xid}
+    res = execute_query(client=dgraph_client, query=query, variables=variables)
+    if type(res) == dict:
+        try:
+            return res["result"][0]["uid"]
+        except KeyError:
+            return ""
+    else:
+        return ""
+
+
+def check_catalog_in_dgraph(source_connection_name: str, source_connection_xid: str) -> bool:
+    query = '''
+        query connectionNames($source_connection_xid: string) {result(func: eq(dgraph.type, "SourceConnection"))
+        @filter(eq(SourceConnection.xid, $source_connection_xid)) {
+            xid: SourceConnection.xid
+            name: SourceConnection.name
+        }
+    }
+    '''
+    variables = {"$source_connection_xid": source_connection_xid}
+    res = execute_query(client=dgraph_client, query=query, variables=variables)
+    if type(res) == dict:
+        try:
+            xid = res["result"][0]["xid"]
+            name = res["result"][0]["name"]
+            return (xid == source_connection_xid) & (name.lower() == source_connection_name.lower())
+        except KeyError:
+            return False
+    else:
+        return False

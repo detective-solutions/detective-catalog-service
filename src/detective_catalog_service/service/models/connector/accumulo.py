@@ -5,7 +5,7 @@ from typing import Optional
 from pydantic import Field
 
 # import project related module
-from detective_catalog_service.service.models.main import PropertyModel
+from detective_catalog_service.service.models.connector.main import PropertyModel
 
 
 class Accumulo(PropertyModel):
@@ -13,7 +13,7 @@ class Accumulo(PropertyModel):
     instance: str = Field(title="instance", description="Name of the Accumulo instance")
     zookeepers: str = Field(title="zookeepers", description="ZooKeeper connect string")
     user: Optional[str] = Field("root", title="username",
-                                    description="Accumulo user to be used by query engine default root")
+                                description="Accumulo user to be used by query engine default root")
     password: str = Field(title="password", description="Accumulo password for user")
     zookeeperMetadataRoot: Optional[str] = Field("/presto-models",
                                                  title="zookeeper metadata root",
