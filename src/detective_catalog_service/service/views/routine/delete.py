@@ -12,7 +12,6 @@ def delete_routine(payload: DeletePayload) -> dict:
         "database": check_catalog_in_dgraph(payload.source_connection_name, payload.source_connection_xid)
     }
     if all(list(available.values())):
-        print("BOTH THERE")
         # 2. delete catalog and related tables in dgraph and trino
         delete = {
             "database": remove_source_with_schema_by_xid(payload.source_connection_xid),

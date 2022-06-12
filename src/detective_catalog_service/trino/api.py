@@ -31,8 +31,13 @@ class TrinoOperation:
             return {"status": r.status_code, "body": [r.text]}
 
     @classmethod
-    def update_catalog(cls):
-        pass
+    def update_catalog(cls, name: str, properties: dict) -> bool:
+        uri = os.path.join(TRINO_SERVER, cls.ENDPOINT, f"update?name={name}")
+        r = requests.post(uri, headers=cls.HEADER, data=json.dumps(properties))
+        if r.status_code == 204:
+            return True
+        else:
+            return False
 
     @classmethod
     def delete_catalog(cls, name: str):

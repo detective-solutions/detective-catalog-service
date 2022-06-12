@@ -43,7 +43,7 @@ def remove_source_with_schema_by_xid(source_xid: str) -> bool:
         query table_and_schema($source_xid: string){
             source_and_schema(func: eq(SourceConnection.xid, $source_xid)){
                 source as uid
-                SourceConnection.tableObjects {
+                SourceConnection.connectedTables {
                     table as uid
                     TableObject.tableSchema {
                         column as uid
@@ -66,3 +66,11 @@ def remove_source_with_schema_by_xid(source_xid: str) -> bool:
         execution_type="delete"
     )
     return status
+
+
+def update_source_with_schema_by_uid(uid: str, properties: dict) -> bool:
+    n_quad = '\n'.join(f'<{uid}> <SourceConnection.{k}> "{v}" .' for k, v in properties.items())
+    if execute_mutation(dgraph_client, n_quad):
+        return True
+    else:
+        return False

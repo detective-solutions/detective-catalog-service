@@ -35,11 +35,31 @@ def get_source_connection_id_by_xid(source_connection_xid: str) -> str:
     res = execute_query(client=dgraph_client, query=query, variables=variables)
     if type(res) == dict:
         try:
-            return res["result"][0]["uid"]
+            return str(res["result"][0]["uid"])
         except KeyError:
             return ""
     else:
         return ""
+
+
+def get_name_and_uid_of_catalog_from_dgraph(source_connection_xid: str) -> tuple:
+    query = '''
+        query connectionNames($source_connection_xid: string) {result(func: eq(dgraph.type, "SourceConnection"))
+        @filter(eq(SourceConnection.xid, $source_connection_xid)) {
+            uid
+            name: SourceConnection.name
+        }
+    }
+    '''
+    variables = {"$source_connection_xid": source_connection_xid}
+    res = execute_query(client=dgraph_client, query=query, variables=variables)
+    if type(res) == dict:
+        try:
+            return res["result"][0]["uid"], res["result"][0]["name"]
+        except KeyError:
+            return "", ""
+    else:
+        return "", ""
 
 
 def check_catalog_in_dgraph(source_connection_name: str, source_connection_xid: str) -> bool:
@@ -57,7 +77,7 @@ def check_catalog_in_dgraph(source_connection_name: str, source_connection_xid: 
         try:
             xid = res["result"][0]["xid"]
             name = res["result"][0]["name"]
-            return (xid == source_connection_xid) & (name.lower() == source_connection_name.lower())
+            return all((xid == source_connection_xid) & (name.lower() == source_connection_name.lower()))
         except KeyError:
             return False
     else:

@@ -1,0 +1,3 @@
+[submodule "src/detective_catalog_service/pydataobject"]
+	path = src/detective_catalog_service/pydataobject
+	url = https://github.com/detective-solutions/pydataobject

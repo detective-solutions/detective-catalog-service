@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 from detective_catalog_service.service.views.responses.codes import general
 from detective_catalog_service.service.models.connector.accumulo import Accumulo
+from detective_catalog_service.service.views.routine.update import update_routine
+from detective_catalog_service.service.models.payload.routine import UpdatePayload
 from detective_catalog_service.service.views.routine.register import register_routine
 
 router = APIRouter(
@@ -10,9 +12,21 @@ router = APIRouter(
 )
 
 
-@router.post("/insert/{catalog_name}")
-async def post_new_catalog(catalog_name: str, catalog_properties: Accumulo):
+@router.post("/insert/{source_connection_name}")
+async def post_new_catalog(source_connection_name: str, source_connection_properties: Accumulo):
     try:
-        return register_routine(catalog_name, catalog_properties)
+        return register_routine(source_connection_name, source_connection_properties)
+    except Exception:
+        return {500: "server error"}
+
+
+@router.post("/update/{source_connection_xid}")
+async def update_existing_catalog(source_connection_xid: str, source_connection_properties: Accumulo):
+    try:
+        payload = UpdatePayload(
+            source_connection_xid=source_connection_xid,
+            source_connection_properties=source_connection_properties
+        )
+        return update_routine(payload)
     except Exception:
         return {500: "server error"}
