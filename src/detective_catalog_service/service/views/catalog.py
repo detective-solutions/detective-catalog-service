@@ -30,5 +30,5 @@ async def list_catalog_names():
 async def delete_catalog(properties: DeletePayload):
     try:
         return delete_routine(properties)
-    except Exception:
-        return {500: "server error"}
+    except Exception as error:
+        return {500: f"server error: {error}"}

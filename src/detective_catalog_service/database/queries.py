@@ -65,7 +65,7 @@ def get_name_and_uid_of_catalog_from_dgraph(source_connection_xid: str) -> tuple
 def check_catalog_in_dgraph(source_connection_name: str, source_connection_xid: str) -> bool:
     query = '''
         query connectionNames($source_connection_xid: string) {result(func: eq(dgraph.type, "SourceConnection"))
-        @filter(eq(SourceConnection.xid, $source_connection_xid)) {
+        @filter(eq(SourceConnection.xid, [$source_connection_xid])) {
             xid: SourceConnection.xid
             name: SourceConnection.name
         }
@@ -77,7 +77,8 @@ def check_catalog_in_dgraph(source_connection_name: str, source_connection_xid: 
         try:
             xid = res["result"][0]["xid"]
             name = res["result"][0]["name"]
-            return all((xid == source_connection_xid) & (name.lower() == source_connection_name.lower()))
+            print(xid, name.lower())
+            return all([(xid == source_connection_xid), (name.lower() == source_connection_name.lower())])
         except KeyError:
             return False
     else:

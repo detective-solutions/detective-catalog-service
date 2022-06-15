@@ -1,3 +1,6 @@
+# import standard modules
+import asyncio
+
 # import project related modules
 from detective_catalog_service.trino.api import TrinoOperation
 from detective_catalog_service.service.models.connector.main import PropertyModel
@@ -19,11 +22,11 @@ def register_routine(name: str, source_connection: PropertyModel) -> dict:
         # 2. Create Catalog in Trino
         if TrinoOperation.register_catalog(catalog_name, source_connection.as_properties()):
             # 3. check if catalog name exists in both envs
-            trino_catalogs = TrinoOperation.list_catalog().get("body")
+            trino_catalogs = TrinoOperation.list_catalog().get("body", list())
             source_available = check_for_source_connection_name(catalog_name)
             if all([(catalog_name in trino_catalogs), source_available]):
                 update_status_of_catalog(uid, status="available")
-                initialize_crawl(uid)
+                asyncio.create_task(initialize_crawl(uid))
                 return {"success": ["catalog is now available"]}
             else:
                 update_status_of_catalog(uid, status="unavailable")

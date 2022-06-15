@@ -11,6 +11,7 @@ def delete_routine(payload: DeletePayload) -> dict:
         "query engine": TrinoOperation.check_catalog_by_name_in_trino(payload.source_connection_name.lower()),
         "database": check_catalog_in_dgraph(payload.source_connection_name, payload.source_connection_xid)
     }
+
     if all(list(available.values())):
         # 2. delete catalog and related tables in dgraph and trino
         delete = {
@@ -21,7 +22,7 @@ def delete_routine(payload: DeletePayload) -> dict:
             return {"success": "source connection and tables are deleted"}
         else:
             missing_in = " and ".join(k for k, v in delete.items() if v is not True)
-            return {"error": f"the catalog is not available in {missing_in}"}
+            return {"error": f"the catalog could not be deleted in {missing_in}"}
 
     else:
         missing_in = " and ".join(k for k, v in available.items() if v is not True)

@@ -41,7 +41,10 @@ def remove_source_with_schema_by_xid(source_xid: str) -> bool:
     variables = {"$source_xid": source_xid}
     query = """
         query table_and_schema($source_xid: string){
-            source_and_schema(func: eq(SourceConnection.xid, $source_xid)){
+            source_and_schema(func: eq(dgraph.type, "SourceConnection")) @filter(eq(
+                SourceConnection.xid,
+                [$source_xid]
+            )){
                 source as uid
                 SourceConnection.connectedTables {
                     table as uid

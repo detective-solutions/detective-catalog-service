@@ -1,16 +1,17 @@
 # import standard modules
 import os
 import asyncio
+from typing import Optional
 
 # import third party modules
 import pydgraph
 from dotenv import load_dotenv
 
 
-load_dotenv(".env")
+load_dotenv()
 
 
-def read_env(variable_name: str) -> str:
+def read_env(variable_name: str) -> Optional[str]:
     variable = os.getenv(variable_name)
     if (variable != "") & (variable is not None):
         return variable
