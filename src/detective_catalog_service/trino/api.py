@@ -24,6 +24,7 @@ class TrinoOperation:
     @classmethod
     def list_catalog(cls) -> dict:
         uri = os.path.join(TRINO_SERVER, cls.ENDPOINT, "catalogs")
+        print("LIST WITH ", uri)
         r = requests.get(uri, headers=cls.HEADER)
         if r.status_code == 200:
             return {"status": r.status_code, "body": json.loads(r.text)}

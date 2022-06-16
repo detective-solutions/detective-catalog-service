@@ -1,5 +1,6 @@
 # import standard modules
 import json
+from datetime import datetime as dt
 
 # import third party modules
 from aiokafka import AIOKafkaProducer
@@ -19,12 +20,12 @@ async def initialize_crawl(source_id: str):
         event = CrawlEvent(
             context=CrawlContext(
                 tenantId="c50416fc-ec70-11ec-858d-9cb6d0fe269b",
-                timestamp="2022-01-01T12:01:00",
+                timestamp=str(dt.now()),
                 eventType="crawlQuery",
                 userId="root",
             ),
             body=CrawlBody(sourceId=source_id)
         ).dict()
-        await producer.send_and_wait(topic="query_execution", value=json.dumps(event).encode("utf-8"))
+        await producer.send(topic="query_execution", value=json.dumps(event).encode("utf-8"))
     finally:
         await producer.stop()
