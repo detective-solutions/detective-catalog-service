@@ -20,8 +20,8 @@ router = APIRouter(
 async def post_new_catalog(source_connection_name: str, source_connection_properties: PostgreSQL):
     try:
         return register_routine(source_connection_name, source_connection_properties)
-    except Exception:
-        return {500: "server error"}
+    except Exception as error:
+        return {500: f"{error}"}
 
 
 @router.post("/update/{source_connection_xid}")

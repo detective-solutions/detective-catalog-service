@@ -9,12 +9,12 @@ from detective_catalog_service.settings import TRINO_SERVER
 
 class TrinoOperation:
 
-    ENDPOINT = "v1/catalog"
+    ENDPOINT = f"http://{TRINO_SERVER}/v1/catalog"
     HEADER = {"Content-Type": "application/json"}
 
     @classmethod
     def register_catalog(cls, name: str, properties: dict) -> bool:
-        uri = os.path.join(TRINO_SERVER, cls.ENDPOINT, f"register?name={name}")
+        uri = os.path.join(cls.ENDPOINT, f"register?name={name}")
         r = requests.post(uri, headers=cls.HEADER, data=json.dumps(properties))
         if r.status_code == 204:
             return True
@@ -23,7 +23,7 @@ class TrinoOperation:
 
     @classmethod
     def list_catalog(cls) -> dict:
-        uri = os.path.join(TRINO_SERVER, cls.ENDPOINT, "catalogs")
+        uri = os.path.join(cls.ENDPOINT, "catalogs")
         r = requests.get(uri, headers=cls.HEADER)
         if r.status_code == 200:
             return {"status": r.status_code, "body": json.loads(r.text)}
@@ -32,7 +32,7 @@ class TrinoOperation:
 
     @classmethod
     def update_catalog(cls, name: str, properties: dict) -> bool:
-        uri = os.path.join(TRINO_SERVER, cls.ENDPOINT, f"update?name={name}")
+        uri = os.path.join(cls.ENDPOINT, f"update?name={name}")
         r = requests.post(uri, headers=cls.HEADER, data=json.dumps(properties))
         if r.status_code == 204:
             return True
@@ -41,7 +41,7 @@ class TrinoOperation:
 
     @classmethod
     def delete_catalog(cls, name: str):
-        uri = os.path.join(TRINO_SERVER, cls.ENDPOINT, f"remove?name={name}")
+        uri = os.path.join(cls.ENDPOINT, f"remove?name={name}")
         r = requests.post(uri, headers=cls.HEADER)
         if r.status_code == 204:
             return True
