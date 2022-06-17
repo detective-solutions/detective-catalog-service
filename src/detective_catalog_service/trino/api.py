@@ -19,6 +19,7 @@ class TrinoOperation:
         if r.status_code == 204:
             return True
         else:
+            print("FAIL WITH: ", r.status_code, r.text)
             return False
 
     @classmethod
