@@ -16,12 +16,16 @@ router = APIRouter(
 @router.get("/list", responses={200: {
     "content": {
         "application/json": {
-            "example": {"types": ["postgres", "sqlserver", "models"]}
+            "example": {"types": [{"connectorName": "postgresql", "displayName": "PostgreSQL"}]}
         }
     }
 }})
 async def list_catalog():
-    return {"types": list(register.keys())}
+    result = [
+        {"connectorName": value.__name__, "displayName": key}
+        for key, value in register.items()
+    ]
+    return result
 
 
 @router.get("/schema/{connector_type}", responses={200: {
