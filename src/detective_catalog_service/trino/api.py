@@ -29,7 +29,7 @@ class TrinoOperation:
         if r.status_code == 200:
             return {"status": r.status_code, "body": json.loads(r.text)}
         else:
-            return {"status": r.status_code, "body": [r.text]}
+            return {"status": r.status_code, "body": [r.text, uri]}
 
     @classmethod
     def update_catalog(cls, name: str, properties: dict) -> bool:

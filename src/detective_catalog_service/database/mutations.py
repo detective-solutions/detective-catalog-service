@@ -7,16 +7,15 @@ from detective_catalog_service.settings import dgraph_client
 from detective_catalog_service.database.execution import execute_mutation, execute_delete, execute_advanced_mutation
 
 
-def create_new_catalog(name: str, properties: dict) -> dict:
+def create_new_catalog(properties: dict) -> dict:
 
     xid_value = str(uuid.uuid1())
     xid = f'_:source1 <SourceConnection.xid> "{xid_value}" .\n'
-    name = f'_:source1 <SourceConnection.name> "{name}" .\n'
     rdf = '\n'.join(f'_:source1 <SourceConnection.{key}> "{value}" .' for key, value in properties.items())
-    status = '\n_:source1 <SourceConnection.status> "pending" .\n'
+    status = '\n_:source1 <SourceConnection.status> "Pending" .\n'
     node = '\n_:source1 <dgraph.type> "SourceConnection" .'
 
-    mutation = xid + name + rdf + status + node
+    mutation = xid + rdf + status + node
 
     if execute_mutation(dgraph_client, mutation):
         return {"success": True, "xid": xid_value}
@@ -24,7 +23,7 @@ def create_new_catalog(name: str, properties: dict) -> dict:
         return {"success": False, "xid": xid_value}
 
 
-def update_status_of_catalog(uid: str, status: Literal["available", "pending", "unavailable"]) -> bool:
+def update_status_of_catalog(uid: str, status: Literal["Available", "Pending", "Error"]) -> bool:
     n_quad = f'<{uid}> <SourceConnection.status> "{status}" .'
     if execute_mutation(dgraph_client, n_quad):
         return True

@@ -1,5 +1,5 @@
 # import third party modules
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 # import project related modules
 from detective_catalog_service.service.views.responses.codes import general
@@ -16,12 +16,12 @@ router = APIRouter(
 )
 
 
-@router.post("/insert/{source_connection_name}")
-async def post_new_catalog(source_connection_name: str, source_connection_properties: PostgreSQL):
+@router.post("/insert")
+async def post_new_catalog(source_connection_properties: PostgreSQL):
     try:
-        return register_routine(source_connection_name, source_connection_properties)
+        return register_routine(source_connection_properties)
     except Exception as error:
-        return {500: f"{error}"}
+        raise HTTPException(status_code=500, detail=f"5000: {error}")
 
 
 @router.post("/update/{source_connection_xid}")
@@ -33,4 +33,4 @@ async def update_existing_catalog(source_connection_xid: str, source_connection_
         )
         return update_routine(payload)
     except Exception:
-        return {500: "server error"}
+        raise HTTPException(status_code=500, detail="5000")
