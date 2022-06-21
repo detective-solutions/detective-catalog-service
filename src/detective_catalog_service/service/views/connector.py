@@ -22,7 +22,7 @@ router = APIRouter(
 }})
 async def list_catalog():
     result = [
-        {"connectorName": value.__name__, "displayName": key}
+        {"connectorName": key, "displayName": value.__name__}
         for key, value in register.items()
     ]
     return result
