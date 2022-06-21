@@ -1,5 +1,5 @@
 # import third party modules
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 # import project related modules
 from detective_catalog_service.trino.api import TrinoOperation
@@ -34,7 +34,7 @@ async def delete_catalog(properties: DeletePayload):
     try:
         return delete_routine(properties)
     except Exception as error:
-        return {500: f"server error: {error}"}
+        raise HTTPException(status_code=500, detail=f"5000: {error}")
 
 
 @router.get("/schema/{source_connection_xid}")
@@ -45,7 +45,6 @@ async def get_catalog_definition(source_id: str):
         schema = schema_type.schema()
         source_values = get_source_connection_values(source["uid"], list(schema["properties"].keys()))
 
-        print(source_values)
         for key, value in source_values[0].items():
             schema["properties"][key]["default"] = value
         return transform_model_response(schema)

@@ -10,41 +10,41 @@ from detective_catalog_service.service.models.connector.main import PropertyMode
 
 class BigQuery(PropertyModel):
     connectorName: str = "bigquery"
-    projectId: str = Field(title="big query project id", description="The Google Cloud Project ID where the "
+    projectId: str = Field(title="Big query project id", description="The Google Cloud Project ID where the "
                                                                      "data reside")
-    parentProjectId: str = Field(title="big query parent project id", description="The project ID Google Cloud Project "
+    parentProjectId: str = Field(title="Big query parent project id", description="The project ID Google Cloud Project "
                                                                                   "to bill for the export")
-    parallelism: Optional[str] = Field(title="partitions to split data",
+    parallelism: Optional[str] = Field(title="Partitions to split data",
                                        description="The number of partitions to split the data into. By default The "
                                                    "number of executors")
-    viewsEnabled: Optional[bool] = Field(False, title="views enabled", description="Enables the connector to read from "
+    viewsEnabled: Optional[bool] = Field(False, title="Views enabled", description="Enables the connector to read from "
                                                                                    "views and not only tables.")
-    viewExpireDuration: Optional[str] = Field("24h", title="view expire duration",
+    viewExpireDuration: Optional[str] = Field("24h", title="View expire duration",
                                               description="Expire duration for the materialized view.")
-    viewMaterializationProject: Optional[str] = Field(title="view materialization project",
+    viewMaterializationProject: Optional[str] = Field(title="View materialization project",
                                                       description="The project  where the  materialized view is going "
                                                                   "to be created")
-    viewMaterializationDataset: Optional[str] = Field(title="view materialization dataset",
+    viewMaterializationDataset: Optional[str] = Field(title="View materialization dataset",
                                                       description="The dataset here the materialized view is going "
                                                                   "to be created")
-    skipViewMaterialization: Optional[bool] = Field(False, title="skip view materialization",
+    skipViewMaterialization: Optional[bool] = Field(False, title="Skip view materialization",
                                                     description="Use REST API to access views instead of Storage API. "
                                                                 "BigQuery BIGNUMERIC and TIMESTAMP types are "
                                                                 "unsupported.")
-    viewCacheTTL: Optional[str] = Field("15m", title="duration for materialization",
+    viewCacheTTL: Optional[str] = Field("15m", title="Duration for materialization",
                                         description="Duration for which the materialization of a view will be cached "
                                                     "and reused. Set to 0ms to disable the cache.")
-    maxReadRowRetries: Optional[int] = Field(3, title="retries in case of issues", description="The number of retries "
+    maxReadRowRetries: Optional[int] = Field(3, title="Retries in case of issues", description="The number of retries "
                                                                                                "in case of retryable "
                                                                                                "server issues")
-    credentialKey: Optional[str] = Field(None, title="credential key", description="The base64 encoded credentials key")
+    credentialKey: Optional[str] = Field(None, title="Credential key", description="The base64 encoded credentials key")
 
     # TODO: not enabled, size there is no process yet to add the configuration file automatically
     # credentialFile: Optional[str] = Field(None, title="path to credential file",
     # description="The path to the JSON credentials file")
-    caseInsensitiveNameMatching: Optional[bool] = Field(False, title="case insensitive name matching",
+    caseInsensitiveNameMatching: Optional[bool] = Field(False, title="Case insensitive name matching",
                                                         escription="Support case insensitive schema and table names.")
-    queryResultsCache: Optional[bool] = Field(False, title="cache query results",
+    queryResultsCache: Optional[bool] = Field(False, title="Cache query results",
                                               description="Enable cache of query results")
 
     def as_properties(self):
