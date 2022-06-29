@@ -4,7 +4,7 @@ excluded_property = ["sourceConnectionName"]
 
 def transform_model_response(model: dict) -> dict:
     required = model["required"]
-    result = {"title": model["title"], "properties": list()}
+    result = {"connectorType": model["title"].lower(), "properties": list()}
     for key, prop_set in model["properties"].items():
         if key != "connectorName":
             result["properties"].append({
