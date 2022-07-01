@@ -9,7 +9,7 @@ concurrency:
 
 env:
   SERVICE_VERSION: 1.0.0-beta # TODO: Get this info from source code
-  PYTHON_VERSION: 3.10
+  PYTHON_VERSION: '3.10'
   DOCKER_REGISTRY: quay.io
   COMPANY_NAME: detective.solutions
 
