@@ -8,7 +8,7 @@ from detective_catalog_service.database.mutations import update_source_with_sche
 def update_routine(payload: UpdatePayload) -> dict:
     # 1. check if catalog exists in trino and in dgraph
     uid, catalog_name = get_name_and_uid_of_catalog_from_dgraph(payload.source_connection_xid)
-    update_status_of_catalog(uid, status="pending")
+    update_status_of_catalog(uid, status="Pending")
     if (catalog_name != "") & (uid != ""):
         available = {
             "query engine": TrinoOperation.check_catalog_by_name_in_trino(catalog_name.lower()),
@@ -20,15 +20,14 @@ def update_routine(payload: UpdatePayload) -> dict:
                 if update_source_with_schema_by_uid(uid, payload.source_connection_properties.dict()):
                     return {"success": "source connection and tables are updated"}
                 else:
-                    update_status_of_catalog(uid, status="unavailable")
-                    return {"error": "changes could not be made in database"}
+                    update_status_of_catalog(uid, status="Error")
+                    return {"error": "3010"}
             else:
-                update_status_of_catalog(uid, status="unavailable")
-                return {"error": "changes could not be made in query engine"}
+                update_status_of_catalog(uid, status="Error")
+                return {"error": "3011"}
         else:
-            update_status_of_catalog(uid, status="unavailable")
-            missing_in = " and ".join(k for k, v in available.items() if v is not True)
-            return {"error": f"the catalog is not available in {missing_in}"}
+            update_status_of_catalog(uid, status="Error")
+            return {"error": "3012"}
     else:
-        update_status_of_catalog(uid, status="unavailable")
-        return {"error": f"the catalog {payload.source_connection_xid} is not available in database"}
+        update_status_of_catalog(uid, status="Error")
+        return {"error": "3013"}

@@ -1,8 +1,5 @@
-# import standard modules
-from copy import deepcopy
-
 # import third party modules
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 # import project related modules
 from detective_catalog_service.service.models.register import Register
@@ -24,7 +21,10 @@ router = APIRouter(
     }
 }})
 async def list_catalog():
-    return Register.list()
+    try:
+        return Register.list()
+    except Exception:
+        raise HTTPException(status_code=500, detail="3004")
 
 
 @router.get("/schema/{connector_type}", responses={200: {
@@ -42,6 +42,5 @@ async def get_catalog_definition(connector_type: str):
             if attr["required"]:
                 attr["default"] = ""
         return model_trans
-    except KeyError:
-        return {"error": f"connector with type '{connector_type}' is not available must "
-                         f"be one of {Register.list()}"}
+    except Exception:
+        raise HTTPException(status_code=500, detail="3005")

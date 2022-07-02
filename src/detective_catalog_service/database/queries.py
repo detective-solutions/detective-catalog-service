@@ -58,11 +58,12 @@ def get_source_connection_id_and_type_by_xid(source_connection_xid: str) -> dict
     res = execute_query(client=dgraph_client, query=query, variables=variables)
     if type(res) == dict:
         try:
-            return res["result"][0]
+            result: dict = res["result"][0]
+            return result
         except KeyError:
-            return ""
+            return dict()
     else:
-        return ""
+        return dict()
 
 
 def get_source_connection_values(source_uid: str, field_names: list) -> List[Dict]:
@@ -76,11 +77,12 @@ def get_source_connection_values(source_uid: str, field_names: list) -> List[Dic
     res = execute_query(client=dgraph_client, query=query, variables=variables)
     if type(res) == dict:
         try:
-            return res["result"]
+            result: list = res["result"]
+            return result
         except KeyError:
-            return ""
+            return list()
     else:
-        return ""
+        return list()
 
 
 def get_name_and_uid_of_catalog_from_dgraph(source_connection_xid: str) -> tuple:

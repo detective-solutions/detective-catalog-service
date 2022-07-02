@@ -27,15 +27,14 @@ def register_routine(source_connection: PropertyModel) -> dict:
             if all([(catalog_name in trino_catalogs), source_available]):
                 update_status_of_catalog(uid, status="Available")
                 asyncio.create_task(initialize_crawl(uid))
-                return {"success": ["catalog is now available"]}
+                return {"success": "catalog is now available"}
             else:
                 update_status_of_catalog(uid, status="Error")
-                return {"error": ["0001: catalog could not be identified, contact support"]}
+                return {"error": "3006"}
         else:
             if delete_catalog_by_uid(uid):
-                return {"error": ["0001: catalog could not be registered in query engine, contact support"]}
+                return {"error": "3007"}
             else:
-                return {"error": [
-                    "0001: catalog could not be registered in query engine nor be deleted from db, contact support"]}
+                return {"error": "3008"}
     else:
-        return {"error": ["0001: catalog could not be registered in database, contact support"]}
+        return {"error": "3009"}
