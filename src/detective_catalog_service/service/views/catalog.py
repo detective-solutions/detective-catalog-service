@@ -48,7 +48,7 @@ async def delete_catalog(properties: DeletePayload):
 async def get_catalog_definition(source_connection_xid: str):
     try:
         source = get_source_connection_id_and_type_by_xid(source_connection_xid)
-        schema_type = Register.get(source.get("connectorName"))
+        schema_type = Register.get(source.get("connectorName", ""))
         schema = schema_type.schema()
         source_values = get_source_connection_values(source["uid"], list(schema["properties"].keys()))
 
