@@ -11,9 +11,3 @@ class PropertyModel(BaseModel):
 
     def as_properties(self):
         raise NotImplementedError
-
-    def setdefault(self):
-        attributes = inspect.getmembers(self, lambda a: not (inspect.isroutine(a)))
-        attributes_list = [a for a in attributes if not (a[0].startswith('__') and a[0].endswith('__'))]
-        print(attributes_list)
-

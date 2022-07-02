@@ -14,19 +14,21 @@ router = APIRouter(
 
 @router.post("/insert")
 async def post_new_catalog(source_connection_properties: Cassandra):
-    try:
-        return register_routine(source_connection_properties)
-    except Exception as error:
-        raise HTTPException(status_code=500, detail=f"5000: {error}")
+    result = register_routine(source_connection_properties)
+    if list(result.keys())[0] == "error":
+        raise HTTPException(status_code=500, detail=result.get("error"))
+    else:
+        return result
 
 
 @router.post("/update/{source_connection_xid}")
 async def update_existing_catalog(source_connection_xid: str, source_connection_properties: Cassandra):
-    try:
-        payload = UpdatePayload(
-            source_connection_xid=source_connection_xid,
-            source_connection_properties=source_connection_properties
-        )
-        return update_routine(payload)
-    except Exception:
-        raise HTTPException(status_code=500, detail="5000")
+    payload = UpdatePayload(
+        source_connection_xid=source_connection_xid,
+        source_connection_properties=source_connection_properties
+    )
+    result = update_routine(payload)
+    if list(result.keys())[0] == "error":
+        raise HTTPException(status_code=500, detail=result.get("error"))
+    else:
+        return result
