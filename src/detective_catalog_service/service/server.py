@@ -10,7 +10,7 @@ from detective_catalog_service.service.views import (
 )
 from detective_catalog_service.service.views.source import accumulo, bigquery, postgresql, cassandra
 
-app = FastAPI(title="detective-catalog-service", version="0.0.1")
+app = FastAPI(title="catalog-service", version="1.0.0-beta")
 app.include_router(connector.router)
 app.include_router(accumulo.router)
 app.include_router(postgresql.router)
