@@ -9,3 +9,4 @@ requests==2.27.1
 protobuf==3.20.*
 uvicorn>=0.15.0
 aiokafka==0.7.2
+grpcio==1.47.0
