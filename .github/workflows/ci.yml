@@ -44,7 +44,7 @@ jobs:
         continue-on-error: true # TODO: Remove when tests are fixed!
         run: tox
 
-  Build:
+  Build-Docker-Image:
     runs-on: ubuntu-latest
     needs: [Run-Tests]
 
@@ -60,17 +60,16 @@ jobs:
           CURRENT_BRANCH: ${{ github.ref_name }}
         run: |
           IMAGE_NAME=${{env.DOCKER_REGISTRY}}/${{env.ORGANIZATION_NAME}}/${{matrix.app}}
-          APP_VERSION=$(node --print "require('./package.json').version")
           if [[ $CURRENT_BRANCH == 'main' ]]; then
-            BASE_TAG=${IMAGE_NAME}:${APP_VERSION}
+            BASE_TAG=${IMAGE_NAME}:${{env.SERVICE_VERSION}}
             TARGET_TAGS="--tag=${BASE_TAG}"
           elif [[ $CURRENT_BRANCH == 'development' ]]; then
-            BASE_TAG=${IMAGE_NAME}:${APP_VERSION}
+            BASE_TAG=${IMAGE_NAME}:${{env.SERVICE_VERSION}}
             TARGET_TAGS="--tag=${BASE_TAG} --tag=${IMAGE_NAME}:development"
           else
             # Sanitize branch name by replacing slashes with hyphens
             SANITIZED_BRANCH_NAME=${CURRENT_BRANCH//\//-}
-            BASE_TAG=${IMAGE_NAME}:${APP_VERSION}-${SANITIZED_BRANCH_NAME}
+            BASE_TAG=${IMAGE_NAME}:${{env.SERVICE_VERSION}}-${SANITIZED_BRANCH_NAME}
             TARGET_TAGS="--tag=${BASE_TAG}"
           fi
           echo "::set-output name=image-name::${IMAGE_NAME}"
