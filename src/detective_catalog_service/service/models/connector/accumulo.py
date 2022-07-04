@@ -10,18 +10,18 @@ from detective_catalog_service.service.models.connector.main import PropertyMode
 
 class Accumulo(PropertyModel):
     connectorName: str = "accumulo"
-    instance: str = Field(title="instance", description="Name of the Accumulo instance")
-    zookeepers: str = Field(title="zookeepers", description="ZooKeeper connect string")
+    instance: str = Field(title="Instance", description="Name of the Accumulo instance")
+    zookeepers: str = Field(title="Zookeepers", description="ZooKeeper connect string")
     user: Optional[str] = Field("root", title="username",
                                 description="Accumulo user to be used by query engine default root")
-    password: str = Field(title="password", description="Accumulo password for user")
+    password: str = Field(title="Password", description="Accumulo password for user")
     zookeeperMetadataRoot: Optional[str] = Field("/presto-models",
-                                                 title="zookeeper metadata root",
+                                                 title="Zookeeper metadata root",
                                                  description="Root znode for storing metadata."
                                                  "Only relevant if using default Metadata Manager")
-    cardinalityCacheSize: Optional[int] = Field(10000, title="cardinality cache size",
+    cardinalityCacheSize: Optional[int] = Field(10000, title="Cardinality cache size",
                                                 description="Sets the size of the index cardinality cache")
-    cardinalityCacheExpireDuration: Optional[str] = Field("5m", title="cardinality cache expire duration",
+    cardinalityCacheExpireDuration: Optional[str] = Field("5m", title="Cardinality cache expire duration",
                                                           description="Sets the expiration duration of the cardinality"
                                                           "cache.")
 

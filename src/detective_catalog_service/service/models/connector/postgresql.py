@@ -10,13 +10,13 @@ from detective_catalog_service.service.models.connector.main import PropertyMode
 
 class PostgreSQL(PropertyModel):
     connectorName: str = "postgresql"
-    host: str = Field(title="host address", description="Host address of the postgres server")
+    host: str = Field(title="Host address", description="Host address of the postgres server")
     databaseSchema: str = Field(title="database schema", description="schema (e.g. public) to be used for queries")
-    database: str = Field(title="database name", description="database to be used for queries")
-    user: str = Field("root", title="username", description="username used for queries")
-    password: str = Field(title="password", description="password for user authentication")
-    port: Optional[int] = Field(5432, title="port", description="port used by the postgresql server")
-    ssl: Optional[bool] = Field(False, title="ssl security", description="If you have TLS configured with a "
+    database: str = Field(title="Database name", description="database to be used for queries")
+    user: str = Field(title="Username", description="username used for queries")
+    password: str = Field(title="Password", description="password for user authentication")
+    port: Optional[int] = Field(5432, title="Port", description="port used by the postgresql server")
+    ssl: Optional[bool] = Field(False, title="SSL security", description="If you have TLS configured with a "
                                                                          "globally-trusted certificate installed on "
                                                                          "your data source, you can enable TLS between "
                                                                          "your cluster and the data source")
@@ -24,7 +24,7 @@ class PostgreSQL(PropertyModel):
                                                                                                     "objects stored "
                                                                                                     "in the metadata "
                                                                                                     "cache")
-    batchSize: Optional[int] = Field(1000, title="batch size", description="Maximum number of statements in a "
+    batchSize: Optional[int] = Field(1000, title="Batch size", description="Maximum number of statements in a "
                                                                            "batched execution. Do not change this"
                                                                            " setting from the default. Non-default"
                                                                            " values may negatively impact "

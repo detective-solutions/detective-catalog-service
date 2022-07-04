@@ -5,6 +5,9 @@ from uuid import UUID
 # import third party modules
 from pydantic import BaseModel, validator, ValidationError
 
+# import project related modules
+from detective_catalog_service.service.models.connector.main import PropertyModel
+
 
 class DeletePayload(BaseModel):
     source_connection_xid: str
@@ -18,3 +21,8 @@ class DeletePayload(BaseModel):
         except ValueError:
             logging.error(f"source connection delete request for {uuid_string} was invalid")
             raise ValidationError
+
+
+class UpdatePayload(BaseModel):
+    source_connection_xid: str
+    source_connection_properties: PropertyModel
