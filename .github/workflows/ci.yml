@@ -10,7 +10,6 @@ env:
 jobs:
   Run-Tests:
     runs-on: ${{ matrix.os }}
-    # Only run for human users on a push event
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -42,6 +41,7 @@ jobs:
 
   Build-Docker-Image:
     runs-on: ubuntu-latest
+    # Run only on manual push events
     if: github.event_name == 'push' && github.actor != 'dependabot[bot]'
     needs: [Run-Tests]
 
