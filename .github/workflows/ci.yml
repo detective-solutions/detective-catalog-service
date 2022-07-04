@@ -49,6 +49,9 @@ jobs:
     needs: [Run-Tests]
 
     steps:
+      - run: echo $(python setup.py --name)
+      - run: echo $(python setup.py --version)
+
       - name: Checkout source code
         uses: actions/checkout@v3
 
