@@ -49,6 +49,8 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Create docker image metadata (name & tags based on branch name)
         id: image-metadata
