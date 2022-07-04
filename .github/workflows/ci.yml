@@ -78,7 +78,7 @@ jobs:
           echo "::set-output name=target-tags::${TARGET_TAGS}"
 
       - name: Build fat docker image
-        run: docker build -f ${{env.DOCKERFILE_PATH}} -t ${{steps.image-metadata.outputs.base-tag}} .
+        run: docker build -t ${{steps.image-metadata.outputs.base-tag}} .
 
       - name: Build & tag optimized docker images
         run: |
