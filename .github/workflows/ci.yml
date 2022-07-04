@@ -4,7 +4,6 @@ on:
   - pull_request_target
 
 env:
-  PYTHON_VERSION: '3.9'
   DOCKER_REGISTRY: quay.io
   ORGANIZATION_NAME: detective.solutions
 
