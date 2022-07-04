@@ -49,16 +49,16 @@ jobs:
     needs: [Run-Tests]
 
     steps:
-      - run: |
-          ls -la
-          echo $(python ./setup.py --name)
-
-      - run: |
-          ls -la
-          echo $(python ./setup.py --version)
-
       - name: Checkout source code
         uses: actions/checkout@v3
+
+      - run: |
+          ls -la
+          echo $(python setup.py --name)
+
+      - run: |
+          ls -la
+          echo $(python setup.py --version)
 
       - name: Create docker image metadata (name & tags based on branch name)
         id: image-metadata
