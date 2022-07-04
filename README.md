@@ -2,7 +2,7 @@
 
 ![CI Pipeline](https://github.com/detective-solutions/detective-catalog-service/actions/workflows/ci.yml/badge.svg)
 
-Microservice to insert, update, list or delete catalogs in Trino
+Microservice to insert, update, list or delete catalogs in Trino.
 
 To start service locally run:
 
