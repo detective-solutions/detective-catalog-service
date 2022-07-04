@@ -5,7 +5,7 @@ on:
 
 env:
   DOCKER_REGISTRY: quay.io
-  ORGANIZATION_NAME: detective.solutions
+  ORGANIZATION: detective.solutions
 
 jobs:
   Run-Tests:
@@ -59,7 +59,7 @@ jobs:
         run: |
           SERVICE_NAME=$(python setup.py --name)
           SERVICE_VERSION=$(python setup.py --version)
-          IMAGE_NAME=${{env.DOCKER_REGISTRY}}/${{env.ORGANIZATION_NAME}}/${SERVICE_NAME}
+          IMAGE_NAME=${{env.DOCKER_REGISTRY}}/${{env.ORGANIZATION}}/${SERVICE_NAME}
           if [[ $CURRENT_BRANCH == 'main' ]]; then
             BASE_TAG=${IMAGE_NAME}:${SERVICE_VERSION}
             TARGET_TAGS="--tag=${BASE_TAG}"
