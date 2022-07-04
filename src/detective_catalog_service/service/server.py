@@ -1,4 +1,5 @@
 # import standard modules
+from importlib.metadata import version
 
 # import third party modules
 from fastapi import FastAPI
@@ -10,7 +11,9 @@ from detective_catalog_service.service.views import (
 )
 from detective_catalog_service.service.views.source import accumulo, bigquery, postgresql, cassandra
 
-app = FastAPI(title="catalog-service", version="1.0.0-beta")
+service_name = "catalog-service"
+
+app = FastAPI(title=service_name, version=version(service_name))
 app.include_router(connector.router)
 app.include_router(accumulo.router)
 app.include_router(postgresql.router)
