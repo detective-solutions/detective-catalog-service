@@ -4,8 +4,6 @@ on:
   - pull_request_target
 
 env:
-  SERVICE_NAME: catalog-service
-  SERVICE_VERSION: 1.0.0-beta # TODO: Get this info from source code
   PYTHON_VERSION: '3.10'
   DOCKER_REGISTRY: quay.io
   ORGANIZATION_NAME: detective.solutions
@@ -52,30 +50,24 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - run: |
-          ls -la
-          echo $(python setup.py --name)
-
-      - run: |
-          ls -la
-          echo $(python setup.py --version)
-
       - name: Create docker image metadata (name & tags based on branch name)
         id: image-metadata
         env:
           CURRENT_BRANCH: ${{ github.ref_name }}
         run: |
-          IMAGE_NAME=${{env.DOCKER_REGISTRY}}/${{env.ORGANIZATION_NAME}}/${{env.SERVICE_NAME}}
+          SERVICE_NAME=$(python setup.py --name)
+          SERVICE_VERSION=$(python setup.py --version)
+          IMAGE_NAME=${{env.DOCKER_REGISTRY}}/${{env.ORGANIZATION_NAME}}/${SERVICE_NAME}
           if [[ $CURRENT_BRANCH == 'main' ]]; then
-            BASE_TAG=${IMAGE_NAME}:${{env.SERVICE_VERSION}}
+            BASE_TAG=${IMAGE_NAME}:${SERVICE_VERSION}
             TARGET_TAGS="--tag=${BASE_TAG}"
           elif [[ $CURRENT_BRANCH == 'development' ]]; then
-            BASE_TAG=${IMAGE_NAME}:${{env.SERVICE_VERSION}}
+            BASE_TAG=${IMAGE_NAME}:${SERVICE_VERSION}
             TARGET_TAGS="--tag=${BASE_TAG} --tag=${IMAGE_NAME}:development"
           else
             # Sanitize branch name by replacing slashes with hyphens
             SANITIZED_BRANCH_NAME=${CURRENT_BRANCH//\//-}
-            BASE_TAG=${IMAGE_NAME}:${{env.SERVICE_VERSION}}-${SANITIZED_BRANCH_NAME}
+            BASE_TAG=${IMAGE_NAME}:${SERVICE_VERSION}-${SANITIZED_BRANCH_NAME}
             TARGET_TAGS="--tag=${BASE_TAG}"
           fi
           echo "::set-output name=image-name::${IMAGE_NAME}"
