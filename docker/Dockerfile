@@ -8,12 +8,11 @@ RUN apt-get update -y && \
 
 # We copy just the requirements.txt first to leverage Docker cache
 COPY ./requirements.txt /app/requirements.txt
+COPY . /app
 
 RUN pip install --no-cache-dir -r requirements.txt && \
     pip install -e . && \
     rm requirements.txt
-
-COPY . /app
 
 # Run application as non-root user
 RUN groupadd -r detective && useradd -g detective --no-create-home detective && \
