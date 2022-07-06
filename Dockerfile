@@ -34,8 +34,8 @@ COPY --from=base /app/venv .
 COPY . .
 
 ENV PATH="/app/venv/bin:$PATH"
-RUN chmod +x /run-docker.sh
+RUN chmod +x ./run-docker.sh
 
 RUN ls -la
 
-CMD /run-docker.sh
+CMD ./run-docker.sh
