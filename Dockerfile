@@ -28,14 +28,12 @@ WORKDIR /app/venv
 COPY --from=base /app/venv .
 COPY . .
 
-ENV PATH="/app/venv/bin:$PATH"
 RUN chmod +x run-docker.sh
+ENV PATH="/app/venv/bin:$PATH"
 
 # Run application as non-root user
 RUN groupadd -r detective && useradd -g detective --no-create-home detective && \
     chown -R detective:detective /app
 USER detective
 
-RUN ls -la
-
-CMD run-docker.sh
+CMD ./run-docker.sh
