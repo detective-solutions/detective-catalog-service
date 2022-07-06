@@ -30,6 +30,7 @@ COPY . .
 
 ENV PATH="/app/venv/bin:$PATH"
 ENV PYTHONPATH=$PWD
+RUN chmod 750 ./run-docker.sh
 
 # Run application as non-root user
 RUN groupadd -r detective && useradd -g detective --no-create-home detective && \
