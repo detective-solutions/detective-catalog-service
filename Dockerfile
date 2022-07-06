@@ -32,6 +32,7 @@ WORKDIR /app
 
 COPY --chown=detective:detective --from=base /app/venv ./venv
 COPY --chown=detective:detective . .
+RUN chmod 750 ./run-docker.sh
 
 # Run application as non-root user
 USER detective
