@@ -1,4 +1,4 @@
 #!/bin/bash
 
-source venv/bin/activate
+source ./venv/bin/activate
 uvicorn src.detective_catalog_service.service.server:app --host 0.0.0.0 --port 3003

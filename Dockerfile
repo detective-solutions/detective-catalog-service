@@ -17,7 +17,6 @@ COPY . .
 
 RUN pip install -r requirements.txt && \
     pip install -e . && \
-    pip install gzip && \
     rm requirements.txt
 
 
