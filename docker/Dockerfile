@@ -29,15 +29,11 @@ WORKDIR /app
 
 # Run application as non-root user
 RUN groupadd -r detective && useradd -g detective --no-create-home detective && \
-    chown -R detective:detective /app
-# chmod +x ./docker/run.sh
+    chown -R detective:detective .
 USER detective
 
 COPY --from=base /usr/app/venv .
 COPY . .
 
-RUN ls -la
-
 # ENV PATH="/usr/app/venv/bin:$PATH"
-
-CMD ./docker/run.sh
+CMD uvicorn detective_catalog_service.service.server:app --host 0.0.0.0 --port 3003
