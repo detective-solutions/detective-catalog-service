@@ -30,6 +30,9 @@ RUN mkdir /app && chown detective:detective /app
 
 WORKDIR /app
 
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends python3-pip python-dev
+
 COPY --chown=detective:detective --from=base /app/venv ./venv
 COPY --chown=detective:detective . .
 RUN chmod 750 ./run-docker.sh
