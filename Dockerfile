@@ -29,6 +29,7 @@ COPY --from=base /app/venv .
 COPY . .
 
 ENV PATH="/app/venv/bin:$PATH"
+ENV PYTHONPATH=$PWD
 
 # Run application as non-root user
 RUN groupadd -r detective && useradd -g detective --no-create-home detective && \
