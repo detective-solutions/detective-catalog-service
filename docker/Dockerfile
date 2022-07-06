@@ -5,6 +5,7 @@ WORKDIR /usr/app
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
+ENV PIP_NO_CACHE_DIR 1
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends python3-pip python-dev
@@ -16,7 +17,7 @@ ENV PATH="/usr/app/venv/bin:$PATH"
 COPY ./requirements.txt /app/requirements.txt
 COPY . .
 
-RUN pip install --no-cache-dir -r requirements.txt && \
+RUN pip install -r requirements.txt && \
     pip install -e . && \
     rm requirements.txt
 
@@ -29,7 +30,7 @@ WORKDIR /usr/app/venv
 # Run application as non-root user
 RUN groupadd -r detective && useradd -g detective --no-create-home detective && \
     chown -R detective:detective /usr/app/venv && \
-    chown -R detective:detective .
+    chmod +x ./docker/run.sh
 
 USER detective
 
