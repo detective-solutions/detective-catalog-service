@@ -1,5 +1,5 @@
 ### BASE IMAGE
-FROM python:3.10-slim@sha256:df9e675c0f6f0f758f7d49ea1b4e12cf7b8688d78df7d9986085fa0f24933ade AS base
+FROM python:3.10@sha256:850b7f7626e5ca9822cc9ac36ce1f712930d8c87eb31b5937dba4037fe204034 AS base
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
@@ -21,7 +21,7 @@ RUN pip install -r requirements.txt && \
 
 
 ### FINAL IMAGE
-FROM python:3.10-slim@sha256:df9e675c0f6f0f758f7d49ea1b4e12cf7b8688d78df7d9986085fa0f24933ade
+FROM python:3.10@sha256:850b7f7626e5ca9822cc9ac36ce1f712930d8c87eb31b5937dba4037fe204034
 
 # Add non-root user
 RUN groupadd detective && \
