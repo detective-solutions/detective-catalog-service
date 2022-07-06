@@ -25,18 +25,19 @@ RUN pip install -r requirements.txt && \
 ### FINAL IMAGE
 FROM python:3.10-slim@sha256:df9e675c0f6f0f758f7d49ea1b4e12cf7b8688d78df7d9986085fa0f24933ade
 
-WORKDIR /usr/app/venv
+WORKDIR /app
 
 # Run application as non-root user
 RUN groupadd -r detective && useradd -g detective --no-create-home detective && \
-    chown -R detective:detective /usr/app/venv && \
-    chmod +x ./docker/run.sh
-
+    chown -R detective:detective /app
+# chmod +x ./docker/run.sh
 USER detective
 
-COPY --from=base /usr/app/venv ./venv
+COPY --from=base /usr/app/venv .
 COPY . .
 
-ENV PATH="/usr/app/venv/bin:$PATH"
+RUN ls -la
+
+# ENV PATH="/usr/app/venv/bin:$PATH"
 
 CMD ./docker/run.sh
