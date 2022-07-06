@@ -28,7 +28,7 @@ WORKDIR /usr/app/venv
 
 # Run application as non-root user
 RUN groupadd -r detective && useradd -g detective --no-create-home detective && \
-    chown -R detective:detective /usr/app/venv \
+    chown -R detective:detective /usr/app/venv && \
     chown -R detective:detective .
 
 USER detective
