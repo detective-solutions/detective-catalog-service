@@ -28,7 +28,6 @@ WORKDIR /app/venv
 COPY --from=base /app/venv .
 COPY . .
 
-RUN chmod +x run-docker.sh
 ENV PATH="/app/venv/bin:$PATH"
 
 # Run application as non-root user
@@ -36,4 +35,4 @@ RUN groupadd -r detective && useradd -g detective --no-create-home detective && 
     chown -R detective:detective /app
 USER detective
 
-CMD ./run-docker.sh
+CMD source bin/activate ; uvicorn detective_catalog_service.service.server:app --host 0.0.0.0 --port 3003
