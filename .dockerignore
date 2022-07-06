@@ -1,4 +1,6 @@
-.github
-tox.ini
-README.md
+**/.github
+**/.git
+**/tox.ini
+**/README.md
+
 requirements_dev.txt
