@@ -1,5 +1,5 @@
 ### BASE IMAGE
-FROM python:3.10@sha256:850b7f7626e5ca9822cc9ac36ce1f712930d8c87eb31b5937dba4037fe204034 AS base
+FROM python:3.10-slim@sha256:df9e675c0f6f0f758f7d49ea1b4e12cf7b8688d78df7d9986085fa0f24933ade AS base
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
@@ -21,7 +21,7 @@ RUN pip install -r requirements.txt && \
 
 
 ### FINAL IMAGE
-FROM python:3.10@sha256:850b7f7626e5ca9822cc9ac36ce1f712930d8c87eb31b5937dba4037fe204034
+FROM python:3.10-slim@sha256:df9e675c0f6f0f758f7d49ea1b4e12cf7b8688d78df7d9986085fa0f24933ade
 
 # Add non-root user
 RUN groupadd detective && \
@@ -37,5 +37,8 @@ RUN chmod 750 ./run-docker.sh
 # Run application as non-root user
 USER detective
 
+RUN . ./venv/bin/activate
 ENV PATH="/app/venv/bin:$PATH"
-CMD ./run-docker.sh
+
+# CMD ./run-docker.sh
+CMD uvicorn src.detective_catalog_service.service.server:app --host 0.0.0.0 --port 3003
