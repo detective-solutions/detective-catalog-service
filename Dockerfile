@@ -1,44 +1,30 @@
-### BASE IMAGE
-FROM python:3.10-slim@sha256:df9e675c0f6f0f758f7d49ea1b4e12cf7b8688d78df7d9986085fa0f24933ade AS base
+FROM python:3.10-slim@sha256:df9e675c0f6f0f758f7d49ea1b4e12cf7b8688d78df7d9986085fa0f24933ade
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 ENV PIP_NO_CACHE_DIR 1
 
-WORKDIR /app
-
-RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends python3-pip python-dev
-
-RUN python -m venv /app/venv
-ENV PATH="/app/venv/bin:$PATH"
-
-COPY . .
-
-RUN pip install -r requirements.txt && \
-    pip install -e . && \
-    rm requirements.txt
-
-
-### FINAL IMAGE
-FROM python:3.10-slim@sha256:df9e675c0f6f0f758f7d49ea1b4e12cf7b8688d78df7d9986085fa0f24933ade
-
 # Add non-root user
 RUN groupadd detective && \
-    useradd -r -g detective --no-create-home detective
-RUN mkdir /app && chown detective:detective /app
+    useradd -r --no-create-home detective -g detective
 
+# Handle folder permissions
+RUN mkdir /app && chown detective:detective /app
 WORKDIR /app
 
-COPY --chown=detective:detective --from=base /app/venv ./venv
+# Install external dependencies separately (can be cached)
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
 COPY --chown=detective:detective . .
-RUN chmod 750 ./run-docker.sh
+
+RUN pip install -e . && \
+    rm requirements.txt
 
 # Run application as non-root user
 USER detective
 
-RUN . ./venv/bin/activate
-ENV PATH="/app/venv/bin:$PATH"
+# Required for docker-slim http probing
+EXPOSE 3003
 
-# CMD ./run-docker.sh
 CMD uvicorn src.detective_catalog_service.service.server:app --host 0.0.0.0 --port 3003
