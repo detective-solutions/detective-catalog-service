@@ -79,21 +79,19 @@ jobs:
         run: docker build -t ${{steps.image-metadata.outputs.base-tag}} .
 
       - name: Build & tag optimized docker images
-        env:
-          # Set environment variables needed to start service for docker-slim http probing
-          SECRETKEY: secretKey
-          ALGORITHM: sha256
-          DGRAPH_SERVICE_NAME: dgraph
-          DGRAPH_PORT: 1111
-          KAFKA_SERVICE_NAME: kafka
-          KAFKA_PORT: 2222
-          TRINO_SERVICE_NAME: trino
-          TRINO_PORT: 3333
         run: |
           curl -sL https://raw.githubusercontent.com/docker-slim/docker-slim/master/scripts/install-dockerslim.sh | sudo -E bash -
           docker-slim build \
-            --target=${{steps.image-metadata.outputs.base-tag}} \
-            ${{steps.image-metadata.outputs.target-tags}}
+            --target ${{steps.image-metadata.outputs.base-tag}} \
+            ${{steps.image-metadata.outputs.target-tags}} \
+            --env SECRETKEY=secretKey \
+            --env ALGORITHM=sha256 \
+            --env DGRAPH_SERVICE_NAME=dgraph \
+            --env DGRAPH_PORT=1111 \
+            --env KAFKA_SERVICE_NAME=kafka \
+            --env KAFKA_PORT=2222 \
+            --env TRINO_SERVICE_NAME=trino \
+            --env TRINO_PORT=3333
 
       - name: Login to quay.io
         uses: docker/login-action@v2
