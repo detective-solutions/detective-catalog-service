@@ -14,11 +14,11 @@ WORKDIR /app
 
 # Install external dependencies separately (can be cached)
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY --chown=detective:detective . .
 
-RUN pip install --no-cache-dir -e . && \
+RUN pip install -e . && \
     rm requirements.txt
 
 # Run application as non-root user
