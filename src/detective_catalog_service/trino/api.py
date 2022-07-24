@@ -51,4 +51,12 @@ class TrinoOperation:
 
     @classmethod
     def check_catalog_by_name_in_trino(cls, catalog_name: str) -> bool:
-        return True
+        catalogs = cls.list_catalog()
+        print(catalogs)
+        if catalogs["status"] == 200:
+            if catalog_name in catalogs["body"]:
+                return True
+            else:
+                return False
+        else:
+            return False
