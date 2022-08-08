@@ -47,7 +47,7 @@ def remove_source_with_schema_by_xid(source_xid: str) -> bool:
                 source as uid
                 SourceConnection.connectedTables {
                     table as uid
-                    TableObject.tableSchema {
+                    Table.schema {
                         column as uid
                     }
                 }
