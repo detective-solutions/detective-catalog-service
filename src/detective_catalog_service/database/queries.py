@@ -41,6 +41,8 @@ def get_source_connection_id_by_xid(source_connection_xid: str) -> str:
             return str(res["result"][0]["uid"])
         except KeyError:
             return ""
+        except IndexError:
+            return ""
     else:
         return ""
 
@@ -123,6 +125,8 @@ def check_catalog_in_dgraph(source_connection_name: str, source_connection_xid: 
             print(xid, name.lower())
             return all([(xid == source_connection_xid), (name.lower() == source_connection_name.lower())])
         except KeyError:
+            return False
+        except IndexError:
             return False
     else:
         return False

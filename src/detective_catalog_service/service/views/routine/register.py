@@ -32,6 +32,7 @@ def register_routine(source_connection: PropertyModel) -> dict:
                 update_status_of_catalog(uid, status="Error")
                 return {"error": "3006"}
         else:
+            update_status_of_catalog(uid, status="Error")
             if delete_catalog_by_uid(uid):
                 return {"error": "3007"}
             else:
