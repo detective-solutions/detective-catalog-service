@@ -38,6 +38,11 @@ TRINO_HOST = read_env("TRINO_SERVICE_NAME")
 TRINO_PORT = read_env("TRINO_PORT")
 TRINO_SERVER = f"{TRINO_HOST}:{TRINO_PORT}"
 
+# set auth host
+AUTH_HOST = read_env("AUTH_SERVICE_NAME")
+AUTH_PORT = read_env("AUTH_PORT")
+AUTH_SERVER = f"{AUTH_HOST}:{AUTH_PORT}"
+
 # set dgraph connection
 dgraph_client_stub = pydgraph.DgraphClientStub(DGRAPH_SERVER)
 dgraph_client = pydgraph.DgraphClient(dgraph_client_stub)

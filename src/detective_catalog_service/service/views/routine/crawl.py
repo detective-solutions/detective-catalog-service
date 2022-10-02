@@ -10,7 +10,7 @@ from detective_catalog_service.settings import KAFKA_SERVER, loop
 from detective_catalog_service.pydataobject.event_type import CrawlEvent, CrawlBody, CrawlContext
 
 
-async def initialize_crawl(source_id: str):
+async def initialize_crawl(source_id: str, tenant_id: str):
     producer = AIOKafkaProducer(
         loop=loop,
         bootstrap_servers=KAFKA_SERVER
@@ -19,7 +19,7 @@ async def initialize_crawl(source_id: str):
     try:
         event = CrawlEvent(
             context=CrawlContext(
-                tenantId="c50416fc-ec70-11ec-858d-9cb6d0fe269b",
+                tenantId=tenant_id,
                 timestamp=str(dt.now()),
                 eventType="crawlQuery",
                 userId="root",
