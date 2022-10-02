@@ -38,9 +38,9 @@ async def get_catalog_definition(connector_type: str):
     try:
         model = Register.get(connector_type)
         model_trans = transform_model_response(model.schema())
-        for attr in model_trans["properties"]:
-            if attr["required"]:
-                attr["default"] = ""
+        for attr in model_trans.properties:
+            if attr.required:
+                attr.default = ""
         return model_trans
     except Exception:
         raise HTTPException(status_code=500, detail="3005")

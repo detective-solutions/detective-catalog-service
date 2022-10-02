@@ -26,4 +26,4 @@ class CatalogProperty(BaseModel):
 
 class CatalogDefinitionResponse(BaseModel):
     connectorType: str
-    properties: Optional[List[CatalogProperty]]
+    properties: List[CatalogProperty]
