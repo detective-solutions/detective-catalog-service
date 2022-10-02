@@ -5,3 +5,4 @@ pytest-cov==2.12.1
 mypy==0.910
 types-requests==2.27.7
 sqlalchemy-utils==0.38.2
+pyjwt==2.4.0

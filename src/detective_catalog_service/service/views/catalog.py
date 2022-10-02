@@ -8,6 +8,10 @@ from detective_catalog_service.service.views.responses.codes import general
 from detective_catalog_service.service.views.routine.delete import delete_routine
 from detective_catalog_service.service.models.payload.routine import DeletePayload
 from detective_catalog_service.service.models.utils import transform_model_response
+from detective_catalog_service.service.models.response.catalog_requests import (
+    RoutineResponse,
+    CatalogDefinitionResponse
+)
 from detective_catalog_service.database.queries import (
     get_source_connection_values,
     get_source_connection_id_and_type_by_xid
@@ -35,16 +39,16 @@ async def list_catalog_names():
         raise HTTPException(status_code=500, detail="3000")
 
 
-@router.post("/delete", responses=general)
+@router.post("/delete", response_model=RoutineResponse)
 async def delete_catalog(properties: DeletePayload):
-    execution_status: dict = delete_routine(properties)
-    if list(execution_status.keys())[0] == "error":
-        raise HTTPException(status_code=500, detail=execution_status.get("error"))
-    else:
+    execution_status = delete_routine(properties)
+    if execution_status.success:
         return execution_status
+    else:
+        raise HTTPException(status_code=500, detail=execution_status.error)
 
 
-@router.get("/schema/{source_connection_xid}")
+@router.get("/schema/{source_connection_xid}", response_model=CatalogDefinitionResponse)
 async def get_catalog_definition(source_connection_xid: str):
     try:
         source = get_source_connection_id_and_type_by_xid(source_connection_xid)
