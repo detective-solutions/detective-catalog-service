@@ -2,7 +2,7 @@ protobuf==3.20.*
 pydgraph==21.3.2
 kafka-python==2.0.2
 python-dotenv==0.20.0
-pydantic==1.9.1
+pydantic==1.10.13
 pandas==1.4.2
 fastapi[all]==0.78.0
 requests==2.27.1
